@@ -22,7 +22,8 @@ jobs:
       run: |
         # 根据项目实际的编译命令进行修改
         # 如果是 Xcode 项目，通常是使用 xcodebuild 命令
-        xcodebuild -project "NativeDisplayBrightness.xcodeproj" -scheme "NativeDisplayBrightnessPlus" -configuration Release -derivedDataPath build   
+       # xcodebuild -project "NativeDisplayBrightness.xcodeproj" -scheme "NativeDisplayBrightnessPlus" -configuration Release -derivedDataPath build   
+        xcodebuild -project "NativeDisplayBrightness.xcodeproj" -list
     - name: Find executable
       run: |
         # 查找编译生成的 .app 文件
