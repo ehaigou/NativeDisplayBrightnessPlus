@@ -1,0 +1,35 @@
+name: Build NativeDisplayBrightnessPlus
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build:
+    runs-on: macos-latest  # 必须使用 macOS 环境
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode
+        uses: actions/setup-xcode@v2
+        with:
+          xcode-version: '15.0'  # 指定 Xcode 版本（可选）
+
+      - name: Build the project
+        run: |
+          cd NativeDisplayBrightnessPlus
+          xcodebuild -scheme NativeDisplayBrightnessPlus -configuration Release
+
+      - name: Archive the .app file
+        run: |
+          cd NativeDisplayBrightnessPlus/build/Release
+          zip -r NativeDisplayBrightnessPlus.app.zip NativeDisplayBrightnessPlus.app
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: NativeDisplayBrightnessPlus-MacOS
+          path: NativeDisplayBrightnessPlus/build/Release/NativeDisplayBrightnessPlus.app.zip
