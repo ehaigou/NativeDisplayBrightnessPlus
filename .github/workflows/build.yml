@@ -16,7 +16,7 @@ jobs:
     - name: Set up Xcode
       run: |
         # 确保 Xcode 版本满足项目要求
-        sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer  # 更改为你需要的 Xcode 版本
+        sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
 
     - name: Build project
       run: |
