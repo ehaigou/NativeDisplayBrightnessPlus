@@ -1,0 +1,41 @@
+name: Build and Release
+
+on:
+  push:
+    branches:
+      - main  # 确保你的分支名称正确，可能是 master 或 main
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  build:
+    runs-on: macos-latest  # 使用最新的 macOS 环境
+
+    steps:
+    - uses: actions/checkout@v4  # 检出你的仓库代码
+
+    - name: Set up Xcode
+      run: |
+        # 确保 Xcode 版本满足项目要求
+        sudo xcode-select -s /Applications/Xcode_15.3.app/Contents/Developer  # 更改为你需要的 Xcode 版本
+
+    - name: Build project
+      run: |
+        # 根据项目实际的编译命令进行修改
+        # 如果是 Xcode 项目，通常是使用 xcodebuild 命令
+        xcodebuild -workspace "NativeDisplayBrightnessPlus.xcworkspace" -scheme "NativeDisplayBrightnessPlus" -configuration Release -derivedDataPath build
+
+    - name: Find executable
+      run: |
+        # 查找编译生成的 .app 文件
+        find build -name "*.app"
+
+    - name: Package for release
+      run: |
+        # 将 .app 文件打包为 .zip 或 .dmg
+        ditto -c -k --sequesterRsrc --keepParent "build/Build/Products/Release/NativeDisplayBrightnessPlus.app" "NativeDisplayBrightnessPlus.zip"
+
+    - name: Upload a release asset
+      uses: actions/upload-artifact@v4
+      with:
+        name: NativeDisplayBrightnessPlus
+        path: NativeDisplayBrightnessPlus.zip
