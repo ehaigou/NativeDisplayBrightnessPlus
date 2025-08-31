@@ -489,7 +489,7 @@ void shutdownSignalHandler(int signal)
 - (NSString *)inputSourceCode {
     id inputSourceCode = [NSUserDefaults.standardUserDefaults valueForKey:@"inputSourceCode"];
     if (!inputSourceCode) {
-        return @"18";//default value.
+        return @"0";//default value.
     }
     return inputSourceCode;
 }
